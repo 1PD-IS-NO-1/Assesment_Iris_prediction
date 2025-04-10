@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from model import load_model, predict_class
 
+
 app = Flask(__name__)
 model, label_map = load_model()
 
