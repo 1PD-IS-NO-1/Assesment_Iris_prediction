@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iris Flower Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Iris Flower Prediction</h1>
+        <label>Sepal Length:</label>
+        <input type="number" id="sepal_length" step="0.1" required>
+        
+        <label>Sepal Width:</label>
+        <input type="number" id="sepal_width" step="0.1" required>
+        
+        <button onclick="predict()">Predict</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function predict() {
+            const sepal_length = document.getElementById('sepal_length').value;
+            const sepal_width = document.getElementById('sepal_width').value;
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sepal_length, sepal_width })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 
+                    data.prediction ? `Predicted Class: ${data.prediction}` : `Error: ${data.error}`;
+            });
+        }
+    </script>
+</body>
+</html>
